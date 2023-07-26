@@ -1,6 +1,6 @@
 ﻿
 
-namespace AITSurvey.Core.Models
+namespace AITResearch.Core.Models
 {
     public class SelectListItems
     {

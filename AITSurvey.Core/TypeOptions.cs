@@ -1,4 +1,4 @@
-﻿namespace AITSurvey.Core
+﻿namespace AITResearch.Core
 {
     public class TypeOptions
     {

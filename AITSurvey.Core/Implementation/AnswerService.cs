@@ -1,9 +1,9 @@
-﻿using AITSurvey.Core.Models;
-using AITSurvey.Core.Repository;
+﻿using AITResearch.Core.Models;
+using AITResearch.Core.Repository;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace AITSurvey.Core.Implementation
+namespace AITResearch.Core.Implementation
 {
     public class AnswerService
     {

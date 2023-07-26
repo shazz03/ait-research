@@ -1,11 +1,11 @@
-﻿using AITSurvey.Core;
-using AITSurvey.Core.Implementation;
+﻿using AITResearch.Core;
+using AITResearch.Core.Implementation;
 using System;
 using System.Data;
 using System.Data.SqlClient;
 using System.Web.UI;
 
-namespace AITSurvey
+namespace AITResearch
 {
     public partial class StaffLogin : Page
     {

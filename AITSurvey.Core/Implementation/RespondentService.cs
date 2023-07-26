@@ -1,8 +1,8 @@
-﻿using AITSurvey.Core.Repository;
+﻿using AITResearch.Core.Repository;
 using System;
-using AITSurvey.Core.Models;
+using AITResearch.Core.Models;
 
-namespace AITSurvey.Core.Implementation
+namespace AITResearch.Core.Implementation
 {
     // This class contains methods to create, read, update, and delete Respondent records
     public class RespondentService

@@ -1,10 +1,10 @@
-﻿using AITSurvey.Core;
-using AITSurvey.Core.Implementation;
+﻿using AITResearch.Core;
+using AITResearch.Core.Implementation;
 using System;
 using System.Net.NetworkInformation;
 using System.Web.UI;
 
-namespace AITSurvey
+namespace AITResearch
 {
     public partial class _Default : Page
     {

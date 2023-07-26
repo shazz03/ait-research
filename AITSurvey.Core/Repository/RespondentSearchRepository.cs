@@ -1,10 +1,10 @@
-﻿using AITSurvey.Core.Models;
+﻿using AITResearch.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 
-namespace AITSurvey.Core.Repository
+namespace AITResearch.Core.Repository
 {
     public class RespondentSearchRepository
     {

@@ -1,9 +1,9 @@
-﻿using AITSurvey.Core.Models;
+﻿using AITResearch.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 
-namespace AITSurvey.Core.Implementation
+namespace AITResearch.Core.Implementation
 {
     public class SelectListItemService
     {

@@ -1,7 +1,7 @@
 ﻿
 using System.Collections.Generic;
 
-namespace AITSurvey.Core.Models
+namespace AITResearch.Core.Models
 {
     public class Question
     {

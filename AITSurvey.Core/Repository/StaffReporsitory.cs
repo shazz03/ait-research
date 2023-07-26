@@ -2,7 +2,7 @@
 using System.Data.SqlClient;
 
 
-namespace AITSurvey.Core.Repository
+namespace AITResearch.Core.Repository
 {
     public class StaffReporsitory
     {

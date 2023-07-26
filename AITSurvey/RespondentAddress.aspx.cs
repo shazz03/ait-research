@@ -1,10 +1,10 @@
-﻿using AITSurvey.Core.Implementation;
+﻿using AITResearch.Core.Implementation;
 using System;
 using System.Linq;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace AITSurvey
+namespace AITResearch
 {
     public partial class RespondentAddress : Page
     {

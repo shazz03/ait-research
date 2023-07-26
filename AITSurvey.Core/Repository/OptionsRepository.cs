@@ -1,10 +1,10 @@
 ﻿
-using AITSurvey.Core.Models;
+using AITResearch.Core.Models;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System;
 
-namespace AITSurvey.Core.Repository
+namespace AITResearch.Core.Repository
 {
     // OptionsRepository class definition
     public class OptionsRepository

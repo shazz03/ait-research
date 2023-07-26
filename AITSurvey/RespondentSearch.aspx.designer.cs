@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AITSurvey
+namespace AITResearch
 {
 
 

@@ -1,6 +1,6 @@
 ﻿using System.Configuration;
 
-namespace AITSurvey.Core.Database
+namespace AITResearch.Core.Database
 {
     public class Connection
     {

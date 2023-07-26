@@ -1,11 +1,11 @@
-﻿using AITSurvey.Core.Implementation;
-using AITSurvey.Core.Models;
+﻿using AITResearch.Core.Implementation;
+using AITResearch.Core.Models;
 using System;
 using System.Linq;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace AITSurvey
+namespace AITResearch
 {
     public partial class RespondentSearch : Page
     {
@@ -76,12 +76,12 @@ namespace AITSurvey
             try
             {
                 // retrieve age group options from the select list item service and create a new list of ListItems
-                var list = (from s in _optionService.LoadOptions(SearchListQuestionIdOptions.Gender)
+                var list = (from s in _optionService.LoadOptions(SearchListQuestionIdOptions.AgeGroup)
                             select new ListItem { Text = s.Description, Value = s.Id.ToString() }).ToArray();
                 // add the ListItems to the age group dropdown list and bind the data
                 if (list != null)
                 {
-                    ddlGender.Items.Add(new ListItem { Text = "Age Group", Value = "0" });
+                    ddlAgeGroup.Items.Add(new ListItem { Text = "Age Group", Value = "0" });
                     ddlAgeGroup.Items.AddRange(list);
                     ddlAgeGroup.DataBind();
                 }

@@ -282,9 +282,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AITSurvey.Core\AITSurvey.Core.csproj">
+    <ProjectReference Include="..\AITSurvey.Core\AITResearch.Core.csproj">
       <Project>{303b8a59-e79a-434a-81b2-5937a522d725}</Project>
-      <Name>AITSurvey.Core</Name>
+      <Name>AITResearch.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
