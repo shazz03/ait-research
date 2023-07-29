@@ -30,23 +30,6 @@ namespace AITResearch.Core.Implementation
             }
         }
 
-        // Method to create a new Address record for a Respondent in the database
-        public void CreateAddress(int respondentId, Address address)
-        {
-            try
-            {
-                if (address != null)
-                {
-                    _respondentRepository.InsertAddressRecord(respondentId, address);
-                }
-            }
-            catch (Exception ex)
-            {
-                // Handle any other exceptions here
-                throw new Exception("An error occurred while saving the address data.", ex);
-            }
-        }
-
         // Method to create a new RespondentProfile record for a Respondent in the database
         public int? CreateProfile(int respondentId, RespondentProfile respondentProfile)
         {

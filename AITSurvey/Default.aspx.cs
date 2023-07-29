@@ -36,7 +36,7 @@ namespace AITResearch
                 Session["RespondentId"] = respondentId;
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //
             }

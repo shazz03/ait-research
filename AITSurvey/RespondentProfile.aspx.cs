@@ -44,7 +44,7 @@ namespace AITResearch
                 _respondentService.CreateProfile(respondentId, profile);
 
                 // Redirect the user to the respondent address page
-                Response.Redirect($"~/RespondentAddress");
+                Response.Redirect($"~/Thankyou");
             }
             catch (Exception ex)
             {

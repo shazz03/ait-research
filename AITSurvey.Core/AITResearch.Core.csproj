@@ -56,9 +56,6 @@
     <Compile Include="Repository\Connection.cs" />
     <Compile Include="Implementation\RespondentService.cs" />
     <Compile Include="Implementation\SelectListItemService.cs" />
-    <Compile Include="Models\Address.cs" />
-    <Compile Include="Models\AgeGroup.cs" />
-    <Compile Include="Models\Gender.cs" />
     <Compile Include="Models\Option.cs" />
     <Compile Include="Models\Answer.cs" />
     <Compile Include="Models\QuestionGroup.cs" />

@@ -69,36 +69,6 @@ namespace AITResearch.Core.Repository
             // Return the generated profile ID
             return profileId;
         }
-
-        // Inserts an address record for a respondent
-        // Parameters:
-        // respondentId: the id of the respondent to insert the address record for
-        // address: the address object containing the address information to insert
-        public void InsertAddressRecord(int respondentId, Address address)
-        {
-            try
-            {
-                using (var con = new SqlConnection(Database.Connection.ConnectionString))
-                {
-                    using (var cmd = new SqlCommand($"Insert into Address (StateId,Suburb,Postcode,AddressTypeId,RespondentId,DateCreated) Values(@StateId,@Suburb,@Postcode,@AddressTypeId,@RespondentId,@DateCreated)", con))
-                    {
-                        con.Open();
-                        cmd.Parameters.Add(new SqlParameter("@StateId", address.State.Id));
-                        cmd.Parameters.Add(new SqlParameter("@Suburb", address.Suburb));
-                        cmd.Parameters.Add(new SqlParameter("@Postcode", address.Postcode));
-                        cmd.Parameters.Add(new SqlParameter("@RespondentId", respondentId));
-                        cmd.Parameters.Add(new SqlParameter("@DateCreated", address.DateCreated));
-                        cmd.Parameters.Add(new SqlParameter("@AddressTypeId", address.AddressType.AddressTypeId));
-                        cmd.ExecuteNonQuery();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("An error occurred while inserting Address record.", ex);
-            }
-        }
-
     }
 }
 

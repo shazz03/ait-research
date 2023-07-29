@@ -104,7 +104,6 @@
   <ItemGroup>
     <Content Include="SurveyDetails.aspx" />
     <Content Include="Review.aspx" />
-    <Content Include="RespondentAddress.aspx" />
     <Content Include="RespondentProfile.aspx" />
     <Content Include="Thankyou.aspx" />
     <Content Include="Questions.aspx" />
@@ -204,13 +203,6 @@
     </Compile>
     <Compile Include="Review.aspx.designer.cs">
       <DependentUpon>Review.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="RespondentAddress.aspx.cs">
-      <DependentUpon>RespondentAddress.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="RespondentAddress.aspx.designer.cs">
-      <DependentUpon>RespondentAddress.aspx</DependentUpon>
     </Compile>
     <Compile Include="RespondentProfile.aspx.cs">
       <DependentUpon>RespondentProfile.aspx</DependentUpon>

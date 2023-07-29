@@ -57,29 +57,8 @@ namespace AITResearch.Core.Repository
                             Id = GetInt32("RespondentProfileId", reader),
                             FirstName = GetString("FirstName", reader),
                             LastName = GetString("LastName", reader),
-                            AgeGroup = new AgeGroup
-                            {
-                                AgeGroupName = GetString("AgeGroup", reader),
-                                Id = GetInt32("AgeGroupId", reader)
-                            },
-                            Gender = new Gender
-                            {
-                                Id = GetInt32("GenderId", reader),
-                                GenderName = GetString("Gender", reader)
-                            },
                             ContactNumber = GetString("ContactNumber", reader),
                             DateOfBirth = reader.IsDBNull(reader.GetOrdinal("DateOfBirth")) ? default : reader.GetDateTime(reader.GetOrdinal("DateOfBirth")),
-                        },
-                        Address = new Address
-                        {
-                            Id = GetInt32("AddressId", reader),
-                            State = new State
-                            {
-                                Id = GetInt32("StateId", reader),
-                                StateName = GetString("State", reader)
-                            },
-                            Postcode = GetString("Postcode",reader),
-                            Suburb = GetString("Suburb", reader),
                         }
                     };
 
