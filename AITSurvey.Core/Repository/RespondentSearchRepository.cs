@@ -27,11 +27,6 @@ namespace AITResearch.Core.Repository
                 cmd.Parameters.AddWithValue("@FirstName", string.IsNullOrEmpty(search.FirstName) ? (object)DBNull.Value : search.FirstName);
                 cmd.Parameters.AddWithValue("@LastName", string.IsNullOrEmpty(search.LastName) ? (object)DBNull.Value : search.LastName);
                 cmd.Parameters.AddWithValue("@Email", string.IsNullOrEmpty(search.Email) ? (object)DBNull.Value : search.Email);
-                //cmd.Parameters.AddWithValue("@AgeGroupId", search.AgeRangeId == 0 ? (object)DBNull.Value : search.AgeRangeId);
-                //cmd.Parameters.AddWithValue("@StateId", search.StateId == 0 ? (object)DBNull.Value : search.StateId);
-                //cmd.Parameters.AddWithValue("@GenderId", search.GenderId == 0 ? (object)DBNull.Value : search.GenderId);
-                //cmd.Parameters.AddWithValue("@Suburb", string.IsNullOrEmpty(search.Suburb) ? (object)DBNull.Value : search.Suburb);
-                //cmd.Parameters.AddWithValue("@Postcode", string.IsNullOrEmpty(search.Postcode) ? (object)DBNull.Value : search.Postcode);
 
                 // Open the database connection
                 conn.Open();
