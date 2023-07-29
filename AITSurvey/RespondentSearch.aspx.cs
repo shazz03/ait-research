@@ -54,11 +54,6 @@ namespace AITResearch
             {
                 FirstName = txtFirstName.Text,
                 LastName = txtLastName.Text,
-                AgeRangeId = int.Parse(ddlAgeGroup.SelectedValue),
-                StateId = int.Parse(ddlState.SelectedValue),
-                Suburb = txtSuburb.Text,
-                Postcode = txtPostcode.Text,
-                GenderId = int.Parse(ddlGender.SelectedValue),
                 Email = txtEmail.Text
             };
 
