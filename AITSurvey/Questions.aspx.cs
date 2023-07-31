@@ -4,7 +4,9 @@ using AITResearch.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web.UI.WebControls;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace AITResearch
 {
@@ -76,7 +78,7 @@ namespace AITResearch
             }
 
             //hide skip button if the question is mandatory in this case consumer will have to select option instead of skipping the whole question
-            if (_currentQuestion.IsMandatory ?? false)
+            if (_currentQuestion.IsMandatory)
             {
                 btnSkip.Visible = false;
             }
@@ -116,17 +118,40 @@ namespace AITResearch
             {
                 RenderCheckboxOptions(listItem);
             }
+            else if (_currentQuestion.Type.TypeName == TypeOptions.Text)
+            {
+                RenderInputTextOption();
+            }
         }
+
+        // This method renders the options as a RadioButtonList
+        private void RenderInputTextOption()
+        {
+            var textBox = new TextBox
+            {
+                ID = "txtData",
+                CssClass = "form-control form-control-lg",
+               
+            };
+
+            if(_currentQuestion.ValidationGroup != null) {
+                textBox.TextMode = (TextBoxMode)Enum.Parse(typeof(TextBoxMode), _currentQuestion.ValidationGroup.ValidationType);
+            }
+
+            pnlOptions.Controls.Add(textBox);
+        }
+
+
 
         // This method renders the options as a RadioButtonList
         private void RenderRadioOptions(List<ListItem> listItems)
         {
             var radioList = new RadioButtonList
             {
-                ID = "rdbList"
+                ID = "rdbList",
+                CssClass = "form-control form-check-input-custom"
             };
             radioList.Items.AddRange(listItems.ToArray());
-            radioList.CssClass = "form-check-input-custom";
 
             pnlOptions.Controls.Add(radioList);
         }
@@ -136,10 +161,10 @@ namespace AITResearch
         {
             var checkBoxList = new CheckBoxList
             {
-                ID = "checkBoxList"
+                ID = "checkBoxList",
+                CssClass = "form-control form-check-input-custom"
             };
             checkBoxList.Items.AddRange(listItems.ToArray());
-            checkBoxList.CssClass = "form-check-input-custom";
 
             pnlOptions.Controls.Add(checkBoxList);
         }
@@ -225,6 +250,10 @@ namespace AITResearch
             {
                 messageText = OptionSelectionCheckbox(selectedOption);
             }
+            else if (_currentQuestion.Type.TypeName == TypeOptions.Text)
+            {
+                messageText = OptionInputText(selectedOption);
+            }
             if (!string.IsNullOrWhiteSpace(messageText))
             {
                 lblMessage.Text = messageText;
@@ -295,6 +324,23 @@ namespace AITResearch
             {
                 return $"Please select atleast {_currentQuestion.MinOptionSelection} option.";
             }
+            return string.Empty;
+        }
+
+        private string OptionInputText(List<Option> selectedOption)
+        {
+            // Find the checkbox list control in the panel
+            var txtBoxControl = (TextBox)pnlOptions.FindControl("txtData");
+            // Loop through each item in the checkbox list control
+
+            if (string.IsNullOrWhiteSpace(txtBoxControl.Text))
+            {
+                return $"{_currentQuestion.Title} should not be empty.";
+            }
+
+            // Add the selected option to the list
+            selectedOption.Add(new Option { QuestionId = _currentQuestion.Id, Description = txtBoxControl.Text });
+
             return string.Empty;
         }
 

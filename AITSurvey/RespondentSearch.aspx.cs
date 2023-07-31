@@ -1,8 +1,11 @@
-﻿using AITResearch.Core.Implementation;
+﻿using AITResearch.Core;
+using AITResearch.Core.Implementation;
 using AITResearch.Core.Models;
+using AITSurvey.Core.Implementation;
 using System;
 using System.Linq;
 using System.Web.UI;
+using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 
 namespace AITResearch
@@ -10,13 +13,15 @@ namespace AITResearch
     public partial class RespondentSearch : Page
     {
         private readonly OptionService _optionService;
-        private readonly SelectListItemService _selectListItemService;
+        private readonly QuestionService _questionService;
+        private readonly SurveyService _surveyService;
         private readonly RespondentSearchService _respondentSearchService;
         public RespondentSearch()
         {
-            _selectListItemService = new SelectListItemService();
             _respondentSearchService = new RespondentSearchService();
             _optionService = new OptionService();
+            _questionService = new QuestionService();
+            _surveyService = new SurveyService();
         }
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -26,13 +31,7 @@ namespace AITResearch
             }
             if (!IsPostBack)
             {
-                LoadAgeGroup();
-                LoadState();
-                LoadGender();
-                LoadRoomTypeOption();
-                LoadInRoomServiceOption();
-                LoadServicesOption();
-                LoadHealthInsuranceOption();
+                LoadSurveys();
             }
         }
 
@@ -63,22 +62,79 @@ namespace AITResearch
             gvRespondent.DataBind();
         }
 
+
+        private void LoadSearchableFields()
+        {
+            // load all questions with seachable field is enabled
+            var questions = _questionService.LoadQuestions(int.Parse(ddlSurvey.SelectedValue));
+            foreach (var question in questions)
+            {
+                
+                if (!question.IsSearchable)
+                    continue;
+
+                var pnl = new Panel();
+                pnl.Attributes.Add("class", "col-3 form-outline");
+
+                if (question.Type.TypeName == TypeOptions.Text)
+                {
+                    var txtBox = new TextBox
+                    {
+                        ID = $"txt-{question.Id}",
+                        CssClass = "form-control form-control-lg"
+                    };
+                    var lbl = new Label
+                    {
+                        Text = question.Title,
+                        AssociatedControlID = $"txt-{question.Id}"
+                       
+                    };
+
+                    pnl.Controls.Add(lbl);
+                    pnl.Controls.Add(txtBox);
+                }
+                else
+                {
+                    var ddl = new DropDownList
+                    {
+                        ID= $"ddl-{question.Id}",
+                        CssClass = "form-select form-select-lg mb-3"
+                    };
+                    ddl.Items.Add(new ListItem { Text = $"Select {question.Title}", Value = "0" });
+                    var lbl = new Label
+                    {
+                        Text = question.Title,
+                        AssociatedControlID = $"ddl-{question.Id}"
+                    };
+                    var options = _optionService.LoadOptions(question.Id);
+                    foreach (var option in options)
+                    {
+                        ddl.Items.Add(new ListItem { Text = option.Description, Value = option.Id.ToString() });
+                    }
+                    pnl.Controls.Add(lbl);
+                    pnl.Controls.Add(ddl);
+                }
+
+                pnlSearch.Controls.Add(pnl);
+            }
+        }
+
         /// <summary>
         /// Loads age group options into the dropdown list from the select list item service
         /// </summary>
-        private void LoadAgeGroup()
+        private void LoadSurveys()
         {
             try
             {
                 // retrieve age group options from the select list item service and create a new list of ListItems
-                var list = (from s in _optionService.LoadOptions(SearchListQuestionIdOptions.AgeGroup)
+                var list = (from s in _surveyService.GetSurveyList()
                             select new ListItem { Text = s.Description, Value = s.Id.ToString() }).ToArray();
                 // add the ListItems to the age group dropdown list and bind the data
                 if (list != null)
                 {
-                    ddlAgeGroup.Items.Add(new ListItem { Text = "Age Group", Value = "0" });
-                    ddlAgeGroup.Items.AddRange(list);
-                    ddlAgeGroup.DataBind();
+                    ddlSurvey.Items.Add(new ListItem { Text = "Select Survey", Value = "0" });
+                    ddlSurvey.Items.AddRange(list);
+                    ddlSurvey.DataBind();
                 }
             }
             catch (Exception)
@@ -88,155 +144,10 @@ namespace AITResearch
             }
         }
 
-        /// <summary>
-        /// Loads Gender options into the dropdown list from the select list item service
-        /// </summary>
-        private void LoadGender()
+
+        protected void ddlSurvey_SelectedIndexChanged(object sender, EventArgs e)
         {
-            try
-            {
-                // retrieve state options from the select list item service and create a new list of ListItems
-                var list = (from s in _optionService.LoadOptions(SearchListQuestionIdOptions.Gender)
-                            select new ListItem { Text = s.Description, Value = s.Id.ToString() }).ToArray();
-                // add the ListItems to the state dropdown list and bind the data
-                if (list != null)
-                {
-                    ddlGender.Items.Add(new ListItem { Text = "Gender", Value = "0" });
-                    ddlGender.Items.AddRange(list);
-                    ddlGender.DataBind();
-                }
-            }
-            catch (Exception)
-            {
-                // catch any exceptions that occur during the loading of state options
-                //log
-            }
+            LoadSearchableFields();
         }
-
-        /// <summary>
-        /// Loads State options into the dropdown list from the select list item service
-        /// </summary>
-        private void LoadState()
-        {
-            try
-            {
-                // retrieve state options from the select list item service and create a new list of ListItems
-                var list = (from s in _selectListItemService.LoadState()
-                            select new ListItem { Text = s.Text, Value = s.Value }).ToArray();
-                // add the ListItems to the state dropdown list and bind the data
-                if (list != null)
-                {
-                    ddlState.Items.AddRange(list);
-                    ddlState.DataBind();
-                }
-            }
-            catch (Exception)
-            {
-                // catch any exceptions that occur during the loading of state options
-                //log
-            }
-        }
-
-
-        /// <summary>
-        /// Loads RoomType options into the dropdown list from the select list item service
-        /// </summary>
-        private void LoadRoomTypeOption()
-        {
-            try
-            {
-                // retrieve state options from the select list item service and create a new list of ListItems
-                var list = (from s in _optionService.LoadOptions(SearchListQuestionIdOptions.RoomType)
-                            select new ListItem { Text = s.Description, Value = s.Id.ToString() }).ToArray();
-                // add the ListItems to the state dropdown list and bind the data
-                if (list != null)
-                {
-                    ddlRoomType.Items.Add(new ListItem { Text = "Room Type", Value = "0" });
-                    ddlRoomType.Items.AddRange(list);
-                    ddlRoomType.DataBind();
-                }
-            }
-            catch (Exception)
-            {
-                // catch any exceptions that occur during the loading of state options
-                //log
-            }
-        }
-
-        /// <summary>
-        /// Loads InRoomService options into the dropdown list from the select list item service
-        /// </summary>
-        private void LoadInRoomServiceOption()
-        {
-            try
-            {
-                // retrieve state options from the select list item service and create a new list of ListItems
-                var list = (from s in _optionService.LoadOptions(SearchListQuestionIdOptions.InRoomService)
-                            select new ListItem { Text = s.Description, Value = s.Id.ToString() }).ToArray();
-                // add the ListItems to the state dropdown list and bind the data
-                if (list != null)
-                {
-                    ddlRoomService.Items.Add(new ListItem { Text = "In-Room Service", Value = "0" });
-                    ddlRoomService.Items.AddRange(list);
-                    ddlRoomService.DataBind();
-                }
-            }
-            catch (Exception)
-            {
-                // catch any exceptions that occur during the loading of state options
-                //log
-            }
-        }
-
-        /// <summary>
-        /// Loads InRoomService options into the dropdown list from the select list item service
-        /// </summary>
-        private void LoadServicesOption()
-        {
-            try
-            {
-                // retrieve state options from the select list item service and create a new list of ListItems
-                var list = (from s in _optionService.LoadOptions(SearchListQuestionIdOptions.Services)
-                            select new ListItem { Text = s.Description, Value = s.Id.ToString() }).ToArray();
-                // add the ListItems to the state dropdown list and bind the data
-                if (list != null)
-                {
-                    ddlServices.Items.Add(new ListItem { Text = "Services", Value = "0" });
-                    ddlServices.Items.AddRange(list);
-                    ddlServices.DataBind();
-                }
-            }
-            catch (Exception)
-            {
-                // catch any exceptions that occur during the loading of state options
-                //log
-            }
-        }
-
-        /// <summary>
-        /// Loads RoomType options into the dropdown list from the select list item service
-        /// </summary>
-        private void LoadHealthInsuranceOption()
-        {
-            try
-            {
-                // retrieve state options from the select list item service and create a new list of ListItems
-                var list = (from s in _optionService.LoadOptions(SearchListQuestionIdOptions.HealthInsurance)
-                            select new ListItem { Text = s.Description, Value = s.Id.ToString() }).ToArray();
-                // add the ListItems to the state dropdown list and bind the data
-                if (list != null)
-                {
-                    ddlHealthInsurance.Items.Add(new ListItem { Text = "Private Health Insurance", Value = "0" });
-                    ddlHealthInsurance.Items.AddRange(list);
-                    ddlHealthInsurance.DataBind();
-                }
-            }
-            catch (Exception)
-            {
-                // catch any exceptions that occur during the loading of state options
-                //log
-            }
-        }
-
     }
 }

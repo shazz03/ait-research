@@ -1,19 +1,15 @@
 ﻿using AITResearch.Core.Implementation;
 using System;
-using System.Linq;
 using System.Web.UI;
-using System.Web.UI.WebControls;
 
 namespace AITResearch
 {
     public partial class RespondentProfile : Page
     {
-        private readonly SelectListItemService _selectListItemService;
         private readonly RespondentService _respondentService;
 
         public RespondentProfile()
         {
-            _selectListItemService = new SelectListItemService();
             _respondentService = new RespondentService();
         }
         protected void Page_Load(object sender, EventArgs e)
@@ -52,12 +48,5 @@ namespace AITResearch
                 lblMessage.Text = "Error: " + ex.Message;
             }
         }
-
-        protected void btnSkip_Click(object sender, EventArgs e)
-        {
-            // Redirect the user to the respondent address page if they choose to skip the profile creation
-            Response.Redirect($"~/RespondentAddress");
-        }
-
     }
 }

@@ -33,8 +33,8 @@
                             <div class="mt-4 col-sm">
                                 <asp:Button ID="btnSkip" CausesValidation="false" CssClass="btn btn-primary btn-lg" runat="server" Text="Skip" OnClick="btnSkip_Click" />
                             </div>
-                           <div class="mt-4 col-sm">
-                               <asp:button id="btnBack" runat="server" text="Back" CssClass="btn btn-primary btn-lg" OnClientClick="JavaScript:window.history.back(1); return false;" /> 
+                            <div class="mt-4 col-sm">
+                                <asp:Button ID="btnBack" runat="server" Text="Back" CssClass="btn btn-primary btn-lg" OnClientClick="JavaScript:window.history.back(1); return false;" />
                                 <asp:Button ID="btnSubmit" CssClass="btn btn-primary btn-lg" runat="server" Text="Next" OnClick="btnSubmit_Click" />
                             </div>
                         </div>

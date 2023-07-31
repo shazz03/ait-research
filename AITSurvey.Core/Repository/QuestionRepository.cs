@@ -1,4 +1,5 @@
 ﻿using AITResearch.Core.Models;
+using AITSurvey.Core.Repository;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -18,10 +19,10 @@ namespace AITResearch.Core.Repository
             try
             {
                 // Create a SQL command to retrieve questions for the specified survey
-                var cmd = new SqlCommand($@"SELECT dbo.QuestionType.TypeName, dbo.Question.Description, dbo.Question.MinOptionSelection, dbo.Question.SortOrder, dbo.Survey.Title, dbo.Question.Id, dbo.Question.SurveyId, dbo.Question.DependsOnOptionIds, dbo.Question.IsMandatory,dbo.Question.QuestionTypeId AS TypeId
-                 FROM  dbo.Question INNER JOIN
-                 dbo.QuestionType ON dbo.Question.QuestionTypeId = dbo.QuestionType.Id INNER JOIN
-                 dbo.Survey ON dbo.Question.SurveyId = dbo.Survey.Id where SurveyId=@SurveyId order by SortOrder", conn);
+                var cmd = new SqlCommand($@"SELECT qt.TypeName, q.Description, q.Title, q.MinOptionSelection, q.SortOrder, s.Title, q.Id, q.SurveyId, q.DependsOnOptionIds, q.IsMandatory,q.QuestionTypeId AS TypeId, q.IsSearchable, qv.ValidationType, qv.Id as ValidationTypeId
+                 FROM  dbo.Question q INNER JOIN dbo.QuestionType qt ON q.QuestionTypeId = qt.Id 
+				 INNER JOIN dbo.Survey s ON q.SurveyId = s.Id
+				   Left JOIN dbo.QuestionValidationGroup qv ON q.ValidationGroupId = qv.Id where SurveyId=@SurveyId order by SortOrder", conn);
 
                 // Add the surveyId parameter to the command
                 cmd.Parameters.Add(new SqlParameter("@SurveyId", surveyId));
@@ -36,25 +37,37 @@ namespace AITResearch.Core.Repository
                     // Create a new question object from the retrieved data
                     var question = new Question
                     {
-                        Id = (int)reader["Id"],
-                        Description = reader["Description"].ToString(),
-                        SortOrder = (int)reader["SortOrder"],
-                        //IsMandatory = (bool?)reader["IsMandatory"],
+                        Id = reader.GetInt32("Id"),
+                        Title = reader.GetString("Title"),
+                        Description = reader.GetString("Description"),
+                        SortOrder = reader.GetInt32("SortOrder"),
+                        IsMandatory = reader.GetBoolean("IsMandatory"),
+                        IsSearchable = reader.GetBoolean("IsSearchable"),
+
                         Type = new QuestionType
                         {
-                            Id = (int)reader["TypeId"],
-                            TypeName = reader["TypeName"].ToString(),
+                            Id = reader.GetInt32("TypeId"),
+                            TypeName = reader.GetString("TypeName"),
                         },
                         Survey = new Survey
                         {
-                            Id = (int)reader["SurveyId"],
-                            Title = reader["Title"].ToString(),
+                            Id = reader.GetInt32("SurveyId"),
+                            Title = reader.GetString("Title"),
                         },
                         // Set the minimum option selection and dependent option ID properties
                         MinOptionSelection =
                         string.IsNullOrWhiteSpace(reader["MinOptionSelection"].ToString()) ? 0 : (int)reader["MinOptionSelection"],
                         DependsOnOptionIds = reader["DependsOnOptionIds"].ToString()
                     };
+
+                    if (!string.IsNullOrEmpty(reader.GetString("ValidationType")))
+                    {
+                        question.ValidationGroup = new AITSurvey.Core.Models.QuestionValidationGroup
+                        {
+                            ValidationType = reader.GetString("ValidationType"),
+                            Id = reader.GetInt32("ValidationTypeId")
+                        };
+                    }
 
                     // Add the question to the list of questions
                     questions.Add(question);
@@ -74,5 +87,7 @@ namespace AITResearch.Core.Repository
                 conn.Close();
             }
         }
+
+
     }
 }

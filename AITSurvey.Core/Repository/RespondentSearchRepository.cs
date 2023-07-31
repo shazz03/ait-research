@@ -1,4 +1,5 @@
 ﻿using AITResearch.Core.Models;
+using AITSurvey.Core.Repository;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -41,19 +42,19 @@ namespace AITResearch.Core.Repository
                     {
                         Respondent = new Respondent
                         {
-                            Id = GetInt32("Id",reader),
-                            SurveyId = GetInt32("SurveyId", reader),
-                            Email = GetString("Email", reader),
-                            MacAddress = GetString("MacAddress", reader),
-                            DateCreated = reader.IsDBNull(reader.GetOrdinal("DateCreated")) ? default : reader.GetDateTime(reader.GetOrdinal("DateCreated")),
+                            Id = reader.GetInt32("Id"),
+                            SurveyId = reader.GetInt32("SurveyId"),
+                            Email = reader.GetString("Email"),
+                            MacAddress = reader.GetString("MacAddress"),
+                            DateCreated = reader.GetDateTime("DateCreated"),
                         },
                         Profile = new RespondentProfile
                         {
-                            Id = GetInt32("RespondentProfileId", reader),
-                            FirstName = GetString("FirstName", reader),
-                            LastName = GetString("LastName", reader),
-                            ContactNumber = GetString("ContactNumber", reader),
-                            DateOfBirth = reader.IsDBNull(reader.GetOrdinal("DateOfBirth")) ? default : reader.GetDateTime(reader.GetOrdinal("DateOfBirth")),
+                            Id = reader.GetInt32("RespondentProfileId"),
+                            FirstName = reader.GetString("FirstName"),
+                            LastName = reader.GetString("LastName"),
+                            ContactNumber = reader.GetString("ContactNumber"),
+                            DateOfBirth = reader.GetDateTime("DateOfBirth"),
                         }
                     };
 
@@ -74,14 +75,5 @@ namespace AITResearch.Core.Repository
             return respondents;
         }
 
-        private string GetString(string columnName, SqlDataReader reader)
-        {
-            return reader.IsDBNull(reader.GetOrdinal(columnName)) ? default : reader.GetString(reader.GetOrdinal(columnName));
-        }
-
-        private int GetInt32(string columnName, SqlDataReader reader)
-        {
-            return reader.IsDBNull(reader.GetOrdinal(columnName)) ? default : reader.GetInt32(reader.GetOrdinal(columnName));
-        }
     }
 }

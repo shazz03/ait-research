@@ -31,8 +31,9 @@
                             <div class="col-sm">
                                 <div class="form-outline">
                                     <asp:Label ID="lblEmail" AssociatedControlID="txtEmail" runat="server" Text="Email *" CssClass="form-label"></asp:Label>
-                                    <asp:TextBox ID="txtEmail" runat="server" CssClass="form-control form-control-lg"></asp:TextBox>
-                                    <asp:RequiredFieldValidator ID="validateEmail" ControlToValidate="txtEmail" runat="server" ErrorMessage="Last Name required" CssClass="invalid-feedback"></asp:RequiredFieldValidator>
+                                    <asp:TextBox ID="txtEmail" runat="server" TextMode="Email" CssClass="form-control form-control-lg"></asp:TextBox>
+                                    <asp:RequiredFieldValidator ID="validateEmail" ControlToValidate="txtEmail" runat="server" ErrorMessage="Email required" CssClass="invalid-feedback"></asp:RequiredFieldValidator>
+                                    <asp:RegularExpressionValidator ID="RegularExpressionValidator2" ControlToValidate="txtEmail" ValidationExpression="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$" CssClass="invalid-feedback" runat="server" ErrorMessage="Invalid Email"></asp:RegularExpressionValidator>
                                 </div>
                             </div>
                         </div>
@@ -40,16 +41,17 @@
                             <div class="col-sm">
                                 <div class="form-outline datepicker w-100">
                                     <asp:Label ID="lblBirthdayDate" AssociatedControlID="txtBirthdayDate" runat="server" Text="Birthday *" CssClass="form-label"></asp:Label>
-                                    <asp:TextBox ID="txtBirthdayDate" runat="server" CssClass="form-control form-control-lg" TextMode="Date"></asp:TextBox>
+                                    <asp:TextBox ID="txtBirthdayDate" runat="server" CssClass="form-control form-control-lg" TextMode="Date"  ></asp:TextBox>
                                     <asp:RequiredFieldValidator ID="validateBirthdayDate" ControlToValidate="txtBirthdayDate" runat="server" ErrorMessage="Birthday Date required" CssClass="invalid-feedback"></asp:RequiredFieldValidator>
                                 </div>
                             </div>
                             <div class="col-sm">
                                 <div class="form-outline">
                                     <asp:Label ID="Label1" AssociatedControlID="txtContactNumber" runat="server" Text="Contact Number *" CssClass="form-label"></asp:Label>
-                                    <asp:TextBox ID="txtContactNumber" runat="server" CssClass="form-control form-control-lg"></asp:TextBox>
+                                    <asp:TextBox ID="txtContactNumber" TextMode="Phone" runat="server" CssClass="form-control form-control-lg"></asp:TextBox>
                                     <asp:RequiredFieldValidator ID="validateContactNumber" ControlToValidate="txtContactNumber" runat="server" ErrorMessage="Contact Number required" CssClass="invalid-feedback"></asp:RequiredFieldValidator>
-                                </div>
+                                    <asp:RegularExpressionValidator ID="RegularExpressionValidator1" ControlToValidate="txtContactNumber" CssClass="invalid-feedback" ValidationExpression="^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$" runat="server" ErrorMessage="Invalid "></asp:RegularExpressionValidator>
+                                    </div>
                             </div>
                         </div>
                         <div class="row">
